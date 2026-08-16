@@ -1,0 +1,17 @@
+# Netlify 前端云构建配置
+# 用法：在 Netlify 控制台 "Import from Git" 关联本仓库，Netlify 会自动：
+#   1) 进入 frontend/ 目录；2) npm install + npm run build；3) 发布 dist/ 为 H5 站点。
+# 全程在云端完成，你本地无需 Node / 任何工具。
+[build]
+  base = "frontend"
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# 单页应用（SPA）回退：任意路径都指向 index.html，手机端路由不 404
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
