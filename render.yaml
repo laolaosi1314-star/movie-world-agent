@@ -1,0 +1,32 @@
+# Render 一键部署清单（基础设施即代码）
+# 用法：在 Render 控制台新建 "Blueprint" 实例并关联本仓库，Render 会自动按此文件创建
+# 后端 Web 服务 + 免费 Postgres 数据库，并自动注入 DATABASE_URL。
+# 你只需在 Render 里点几次，无需本地任何工具。
+services:
+  - type: web
+    name: movie-world-agent
+    runtime: python
+    plan: free                       # 免费档；闲置后会冷启动（首次约 30s），适合个人把玩
+    region: singapore                # 亚洲节点，国内手机访问延迟更低
+    pythonVersion: "3.12"
+    buildCommand: "pip install -r requirements.txt"
+    # 每次部署自动跑最新迁移（含 0011_relationship），连的是托管 Postgres
+    releaseCommand: "alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: movie-world-db
+          property: connectionString
+      # 跨域：默认放开（演示可用）。上线后改为你的 H5 域名，例如
+      # value: "https://movie-world-agent.netlify.app"
+      - key: CORS_ALLOW_ORIGINS
+        value: "*"
+
+databases:
+  - name: movie-world-db
+    plan: free                       # 免费档 Postgres
+    databaseName: movie_world
+    user: movie_world
+    postgresMajorVersion: "16"
