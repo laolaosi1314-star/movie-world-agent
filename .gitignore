@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Node / 前端
+node_modules/
+frontend/dist/
+
+# 本地数据 / 编辑器
+*.db
+*.sqlite3
+.DS_Store
