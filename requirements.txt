@@ -1,0 +1,9 @@
+# 影视世界 Agent — 后端依赖（已锁定为本地验证通过版本，保证云端可复现）
+fastapi==0.141.1
+uvicorn[standard]==0.52.3
+SQLAlchemy==2.0.52
+alembic==1.19.1
+pydantic==2.13.4
+psycopg2-binary>=2.9
+python-dotenv>=1.0
+httpx>=0.27
