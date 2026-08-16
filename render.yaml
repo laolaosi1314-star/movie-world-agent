@@ -26,6 +26,7 @@ services:
 
 databases:
   - name: movie-world-db
+    region: singapore                # 与 Web 服务同区域，避免跨区延迟
     plan: free                       # 免费档 Postgres
     databaseName: movie_world
     user: movie_world
